@@ -113,6 +113,10 @@ export default function ({ types: t }) {
             SOURCES: sources,
             FACTORY: factory
           })];
+
+          // requeue the path to the define() call so that other plugins
+          // could run on the generated output
+          path.requeue(path.get("body.0"));
         }
       }
     }
