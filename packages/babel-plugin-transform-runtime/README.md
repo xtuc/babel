@@ -8,7 +8,7 @@ NOTE: Instance methods such as `"foobar".includes("foo")` will not work since th
 
 Babel uses very small helpers for common functions such as `_extend`. By default this will be added to every file that requires it. This duplication is sometimes unnecessary, especially when your application is spread out over multiple files.
 
-This is where the `transform-runtime` plugin comes in: all of the helpers will reference the module `babel-runtime` to avoid duplication across your compiled output. The runtime will be compiled into your build.
+This is where the `transform-runtime` plugin comes in: all of the helpers will reference the module `@babel/runtime` to avoid duplication across your compiled output. The runtime will be compiled into your build.
 
 Another purpose of this transformer is to create a sandboxed environment for your code. If you use [babel-polyfill](http://babeljs.io/docs/usage/polyfill/) and the built-ins it provides such as `Promise`, `Set` and `Map`, those will pollute the global scope. While this might be ok for an app or a command line tool, it becomes a problem if your code is a library which you intend to publish for others to use or if you can't exactly control the environment in which your code will run.
 
@@ -26,10 +26,10 @@ In most cases, you should install `babel-plugin-transform-runtime` as a developm
 npm install --save-dev babel-plugin-transform-runtime
 ```
 
-and `babel-runtime` as a production dependency (with `--save`).
+and `@babel/runtime` as a production dependency (with `--save`).
 
 ```sh
-npm install --save babel-runtime
+npm install --save @babel/runtime
 ```
 
 The transformation plugin is typically used only in development, but the runtime itself will be depended on by your deployed/published code. See the examples below for more details.
@@ -53,7 +53,7 @@ Add the following line to your `.babelrc` file:
       "helpers": false, // defaults to true
       "polyfill": false, // defaults to true
       "regenerator": true, // defaults to true
-      "moduleName": "babel-runtime" // defaults to "babel-runtime"
+      "moduleName": "@babel/runtime" // defaults to "@babel/runtime"
     }]
   ]
 }
@@ -77,13 +77,13 @@ require("@babel/core").transform("code", {
 
 The `runtime` transformer plugin does three things:
 
-* Automatically requires `babel-runtime/regenerator` when you use generators/async functions.
-* Automatically requires `babel-runtime/core-js` and maps ES6 static methods and built-ins.
-* Removes the inline babel helpers and uses the module `babel-runtime/helpers` instead.
+* Automatically requires `@babel/runtime/regenerator` when you use generators/async functions.
+* Automatically requires `@babel/runtime/core-js` and maps ES6 static methods and built-ins.
+* Removes the inline babel helpers and uses the module `@babel/runtime/helpers` instead.
 
 What does this actually mean though? Basically, you can use built-ins such as `Promise`, `Set`, `Symbol` etc as well use all the Babel features that require a polyfill seamlessly, without global pollution, making it extremely suitable for libraries.
 
-Make sure you include `babel-runtime` as a dependency.
+Make sure you include `@babel/runtime` as a dependency.
 
 ### Regenerator aliasing
 
@@ -121,7 +121,7 @@ Instead what the `runtime` transformer does it compile that to:
 ```javascript
 "use strict";
 
-var _regenerator = require("babel-runtime/regenerator");
+var _regenerator = require("@babel/runtime/regenerator");
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
 
@@ -162,15 +162,15 @@ into the following:
 ```javascript
 "use strict";
 
-var _getIterator2 = require("babel-runtime/core-js/get-iterator");
+var _getIterator2 = require("@babel/runtime/core-js/get-iterator");
 
 var _getIterator3 = _interopRequireDefault(_getIterator2);
 
-var _promise = require("babel-runtime/core-js/promise");
+var _promise = require("@babel/runtime/core-js/promise");
 
 var _promise2 = _interopRequireDefault(_promise);
 
-var _symbol = require("babel-runtime/core-js/symbol");
+var _symbol = require("@babel/runtime/core-js/symbol");
 
 var _symbol2 = _interopRequireDefault(_symbol);
 
@@ -219,7 +219,7 @@ the `runtime` transformer however turns this into:
 ```javascript
 "use strict";
 
-var _classCallCheck2 = require("babel-runtime/helpers/classCallCheck");
+var _classCallCheck2 = require("@babel/runtime/helpers/classCallCheck");
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
