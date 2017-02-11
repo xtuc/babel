@@ -1,4 +1,4 @@
-# babel-helper-builder-react-jsx
+# @babel/helper-builder-react-jsx
 
 ## Usage
 
@@ -12,7 +12,7 @@ type ElementState = {
   post?: Function; // function called with (state: ElementState) after building attribs
 };
 
-require("babel-helper-builder-react-jsx")({
+require("@babel/helper-builder-react-jsx")({
   pre: function (state: ElementState) {
     // called before building the element
   },
