@@ -29,7 +29,7 @@ babel script.js --presets latest
 ### Via Node API
 
 ```javascript
-require("babel-core").transform("code", {
+require("@babel/core").transform("code", {
   presets: ["latest"]
 });
 ```
