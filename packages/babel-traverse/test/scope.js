@@ -28,6 +28,35 @@ function getIdentifierPath(code) {
 }
 
 describe("scope", function () {
+
+  describe("binding rename", function() {
+
+    it("variable declaration", function () {
+      const path = getPath("var a; a");
+      path.scope.rename("a", "b");
+
+      assert(path.scope.getBinding("a") === undefined);
+      assert.ok(path.scope.getBinding("b"));
+    });
+
+    it("variable with switch descriminant", function () {
+      const path = getPath("var a; switch(a){}");
+      path.scope.rename("a", "b");
+
+      assert(path.scope.getBinding("a") === undefined);
+      assert.ok(path.scope.getBinding("b"));
+    });
+
+    it("switchCase rename descriminant", function () {
+      const path = getPath("var a; switch(a){ case 0: a; }");
+
+      path.get("SwitchCase").scope.rename("a");
+
+      assert.ok(path.scope.getBinding("a"), "a in the parent scope has been renamed");
+      assert.ok(path.scope.getBinding("b"));
+    });
+  });
+
   describe("binding paths", function () {
     it("function declaration id", function () {
       assert.ok(getPath("function foo() {}")
